@@ -1,0 +1,43 @@
+<main>
+  @if (list(); as myList) {
+    <h2 class="font-semibold text-2xl text-center mt-3">{{ myList.name }}</h2>
+    <app-search-item [targetListId]="listId()"/>
+    <section class="max-w-lg mx-auto">
+      <ul
+        class="m-1 max-h-[75vh] overflow-y-auto pb-24"
+      >
+        @for (item of myList.items; track item.name) {
+          <li
+            class="flex items-center gap-3 p-3 hover:bg-blue-50 hover:rounded transition border-b last:border-0 border-gray-100 cursor-pointer"
+          >
+            <span
+              class="text-2xl transition-all duration-300"
+              aria-hidden="true"
+              [class.grayscale]="item.basket"
+              [class.opacity-75]="item.basket"
+            >
+            {{ item.emoji }}
+          </span>
+            <span class="font-medium capitalize flex-1" [class.line-through]="item.basket" [class.text-gray-500]="item.basket">{{ item.name }}</span>
+            <button (click)="removeItem(item)" class="rounded bg-red-100 hover:bg-red-200 p-2 cursor-pointer z-10">
+              <img ngSrc="/trash.svg" alt="Supprimer" height="25" width="25">
+            </button>
+          </li>
+        } @empty {
+          <li class="p-3 text-gray-500 text-center italic text-sm">Pas encore d'article</li>
+        }
+      </ul>
+      <button
+        (click)="loadList(myList)"
+        class="fixed bottom-20 left-1/2 -translate-x-1/2 bg-blue-600 text-white px-6 py-3 rounded-full shadow-xl font-semibold hover:bg-blue-700 transition"
+      >
+        Utiliser cette liste
+      </button>
+    </section>
+  } @else {
+    <div class="text-center mt-10 p-4">
+      <p class="text-gray-500 text-lg">Oups, cette liste n'existe pas !</p>
+      <a routerLink="/lists" class="text-blue-600 underline mt-2 inline-block">Retour aux modèles</a>
+    </div>
+  }
+</main>

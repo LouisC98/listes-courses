@@ -1,0 +1,20 @@
+<nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50 h-16 flex justify-around items-center">
+  <a
+    routerLink="/"
+    routerLinkActive="!text-blue-500"
+    [routerLinkActiveOptions]="{exact: true}"
+    class="flex flex-col items-center gap-1 text-gray-400 hover:text-blue-500 transition cursor-pointer"
+  >
+    <img ngSrc="/home.svg" alt="Ma Liste" width="24" height="24" class="transition brightness-50 invert-50">
+    <span class="text-xs font-medium">Liste en cours</span>
+  </a>
+
+  <a
+    routerLink="/lists"
+    routerLinkActive="!text-blue-500"
+    class="flex flex-col items-center gap-1 text-gray-400 hover:text-blue-500 transition cursor-pointer"
+  >
+    <img ngSrc="/list.svg" alt="Modèles" width="24" height="24" class="transition brightness-50 invert-50">
+    <span class="text-xs font-medium">Mes listes</span>
+  </a>
+</nav>

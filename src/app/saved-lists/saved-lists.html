@@ -1,0 +1,22 @@
+<main>
+  <section class="max-w-lg mx-auto">
+      <div class="grid gap-2 my-4 p-2">
+          @for (list of savedLists(); track list.id) {
+              <div class="p-3 rounded border border-gray-200 shadow flex justify-between items-center">
+                  <span class="font-semibold text-lg">{{list.name}}</span>
+                  <div class="flex gap-2">
+                      <a [routerLink]="['/list', list.id]" class="rounded bg-blue-100 hover:bg-blue-200 p-2 cursor-pointer z-10" title="Voir">
+                          <img ngSrc="/eye.svg" alt="Voir" height="25" width="25">
+                      </a>
+                      <button (click)="loadList(list)" class="rounded bg-lime-100 hover:bg-lime-200 p-2 cursor-pointer z-10" title="Charger la liste">
+                          <img ngSrc="/use.svg" alt="Utiliser cette liste" height="25" width="25">
+                      </button>
+                      <button (click)="deleteList(list)" class="rounded bg-red-100 hover:bg-red-200 p-2 cursor-pointer z-10" title="Supprimer">
+                          <img ngSrc="/trash.svg" alt="Supprimer" height="25" width="25">
+                      </button>
+                  </div>
+              </div>
+          }
+      </div>
+  </section>
+</main>
