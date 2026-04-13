@@ -1,5 +1,4 @@
 import {ChangeDetectionStrategy, Component, computed, inject, input, signal} from '@angular/core';
-import {NgOptimizedImage} from '@angular/common';
 import {ShoppingListService} from '../services/shopping-list.service';
 import {EmojiService} from '../services/emoji.service';
 import {FormsModule} from '@angular/forms';
@@ -7,7 +6,6 @@ import {FormsModule} from '@angular/forms';
 @Component({
   selector: 'app-search-item',
   imports: [
-    NgOptimizedImage,
     FormsModule
   ],
   templateUrl: './search-item.html',

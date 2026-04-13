@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, Component, computed, inject, input, signal, WritableSignal} from '@angular/core';
 import {ShoppingListService} from '../services/shopping-list.service';
 import {Router, RouterLink} from '@angular/router';
-import {NgOptimizedImage} from '@angular/common';
 import {SearchItem} from '../search-item/search-item';
 import {Item} from '../model/item';
 import {List} from '../model/list';
@@ -10,7 +9,6 @@ import {List} from '../model/list';
   selector: 'app-view-list',
   imports: [
     RouterLink,
-    NgOptimizedImage,
     SearchItem
   ],
   templateUrl: './view-list.html',

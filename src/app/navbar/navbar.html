@@ -6,7 +6,7 @@
     class="flex flex-col items-center gap-1 text-surface-400 dark:text-surface-500 hover:text-primary-500 transition cursor-pointer"
   >
     <span class="relative">
-      <img ngSrc="/assets/icons/home.svg" alt="Ma Liste" width="24" height="24" class="transition brightness-50 invert-50 dark:invert">
+      <img src="assets/icons/home.svg" alt="Ma Liste" width="24" height="24" class="transition brightness-50 invert-50 dark:invert">
       @if (uncheckedCount() > 0) {
         <span class="absolute -top-1.5 -right-2 min-w-[1.25rem] text-center bg-primary-500 text-white text-[10px] font-bold rounded-full px-1 py-0.5 leading-none" [attr.aria-label]="uncheckedCount() + ' articles non cochés'">
           {{ uncheckedCount() }}
@@ -21,7 +21,7 @@
     routerLinkActive="!text-primary-500"
     class="flex flex-col items-center gap-1 text-surface-400 dark:text-surface-500 hover:text-primary-500 transition cursor-pointer"
   >
-    <img ngSrc="/assets/icons/list.svg" alt="Modèles" width="24" height="24" class="transition brightness-50 invert-50 dark:invert">
+    <img src="assets/icons/list.svg" alt="Modèles" width="24" height="24" class="transition brightness-50 invert-50 dark:invert">
     <span class="text-xs font-medium">Mes listes</span>
   </a>
 </nav>

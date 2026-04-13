@@ -2,12 +2,11 @@ import {ChangeDetectionStrategy, Component, computed, inject, Signal, signal, Wr
 import {ShoppingListService} from '../services/shopping-list.service';
 import {Item} from '../model/item';
 import {SearchItem} from '../search-item/search-item';
-import {NgOptimizedImage} from '@angular/common';
 import {List} from '../model/list';
 
 @Component({
   selector: 'app-current-list',
-  imports: [SearchItem, NgOptimizedImage],
+  imports: [SearchItem],
   templateUrl: './current-list.html',
   styleUrl: './current-list.css',
   changeDetection: ChangeDetectionStrategy.OnPush

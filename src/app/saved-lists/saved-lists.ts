@@ -1,13 +1,11 @@
 import {ChangeDetectionStrategy, Component, computed, inject, Signal} from '@angular/core';
 import {ShoppingListService} from '../services/shopping-list.service';
 import {List} from '../model/list';
-import {NgOptimizedImage} from "@angular/common";
 import {Router, RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-saved-lists',
   imports: [
-    NgOptimizedImage,
     RouterLink
   ],
   templateUrl: './saved-lists.html',
