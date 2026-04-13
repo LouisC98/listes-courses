@@ -8,7 +8,7 @@
       placeholder="Chercher un article (ex: pomme)..."
       class="w-full border border-surface-300 dark:border-surface-700 bg-transparent rounded-lg p-2 shadow-sm focus:ring-2 focus:ring-primary-500 focus:outline-none"
     >
-    <button type="submit" tabindex="-1" class="rounded bg-success-200 text-success-800 hover:bg-success-300 active:bg-success-400 dark:bg-success-900 dark:text-success-200 dark:hover:bg-success-800 p-2 cursor-pointer">
+    <button type="submit" tabindex="-1" (mousedown)="$event.preventDefault()" class="rounded bg-success-200 text-success-800 hover:bg-success-300 active:bg-success-400 dark:bg-success-900 dark:text-success-200 dark:hover:bg-success-800 p-2 cursor-pointer">
       <img src="assets/icons/plus.svg" alt="Ajouter" height="25" width="25" class="dark:invert">
     </button>
   </form>
@@ -20,6 +20,7 @@
       <li class="border-b last:border-0 border-surface-100 dark:border-surface-800">
         <button
           type="button"
+          (mousedown)="$event.preventDefault()"
           (click)="selectItem(item)"
           class="flex items-center gap-3 p-3 w-full hover:bg-primary-50 focus:bg-primary-50 dark:hover:bg-surface-800 dark:focus:bg-surface-800 focus:outline-none cursor-pointer transition text-left"
         >
