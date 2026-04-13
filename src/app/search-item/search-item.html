@@ -17,16 +17,15 @@
     [class.hidden]="searchInput().length < 2"
   >
     @for (item of filteredFood(); track item.name) {
-      <li
-        (click)="selectItem(item)"
-        (keydown.enter)="selectItem(item); $event.preventDefault()"
-        (keydown.space)="selectItem(item); $event.preventDefault()"
-        tabindex="0"
-        role="button"
-        class="flex items-center gap-3 p-3 hover:bg-primary-50 focus:bg-primary-50 dark:hover:bg-surface-800 dark:focus:bg-surface-800 focus:outline-none cursor-pointer transition border-b last:border-0 border-surface-100 dark:border-surface-800"
-      >
-        <span class="text-2xl" aria-hidden="true">{{ item.emoji }}</span>
-        <span class="font-medium text-surface-800 dark:text-surface-100 capitalize">{{ item.name }}</span>
+      <li class="border-b last:border-0 border-surface-100 dark:border-surface-800">
+        <button
+          type="button"
+          (click)="selectItem(item)"
+          class="flex items-center gap-3 p-3 w-full hover:bg-primary-50 focus:bg-primary-50 dark:hover:bg-surface-800 dark:focus:bg-surface-800 focus:outline-none cursor-pointer transition text-left"
+        >
+          <span class="text-2xl" aria-hidden="true">{{ item.emoji }}</span>
+          <span class="font-medium text-surface-800 dark:text-surface-100 capitalize">{{ item.name }}</span>
+        </button>
       </li>
     } @empty {
       <li class="p-3 text-surface-500 dark:text-surface-400 text-center italic text-sm">Aucun résultat trouvé.</li>

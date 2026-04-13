@@ -29,21 +29,25 @@
     >
       @for (item of items(); track item.id) {
         <li
-          class="flex items-center gap-3 p-3 active:bg-primary-100 md:hover:bg-primary-50 dark:active:bg-surface-800 dark:md:hover:bg-surface-800/50 rounded-lg transition border-b last:border-0 border-surface-100 dark:border-surface-800 cursor-pointer"
-          [class.bg-surface-100]="item.basket"
-          [class.dark:bg-surface-800/40]="item.basket"
-          (click)="toggleBasket(item.id)" role="button" tabindex="0"
+          class="flex items-center gap-3 p-3 active:bg-primary-100 md:hover:bg-primary-50 dark:active:bg-surface-800 dark:md:hover:bg-surface-800/50 rounded-lg transition border-b last:border-0 border-surface-100 dark:border-surface-800"
+          [class]="item.basket ? 'bg-surface-100 dark:bg-surface-800/40' : ''"
         >
-          <input type="checkbox" class="m-1 accent-primary-600 cursor-pointer" [checked]="item.basket">
-          <span
-            class="text-2xl transition-all duration-300"
-            aria-hidden="true"
-            [class.grayscale]="item.basket"
-            [class.opacity-75]="item.basket"
+          <button
+            type="button"
+            (click)="toggleBasket(item.id)"
+            class="flex items-center gap-3 flex-1 cursor-pointer text-left"
           >
-            {{ item.emoji }}
-          </span>
-          <span class="font-medium capitalize flex-1" [class.line-through]="item.basket" [class.text-surface-500]="item.basket" [class.dark:text-surface-400]="item.basket">{{ item.name }}</span>
+            <input type="checkbox" class="m-1 accent-primary-600 cursor-pointer" [checked]="item.basket">
+            <span
+              class="text-2xl transition-all duration-300"
+              aria-hidden="true"
+              [class.grayscale]="item.basket"
+              [class.opacity-75]="item.basket"
+            >
+              {{ item.emoji }}
+            </span>
+            <span class="font-medium capitalize flex-1" [class.line-through]="item.basket" [class.text-surface-500]="item.basket" [class.dark:text-surface-400]="item.basket">{{ item.name }}</span>
+          </button>
           <button (click)="removeItem($event, item.id)" class="bg-danger-200 text-danger-800 hover:bg-danger-300 active:bg-danger-400 dark:bg-danger-900 dark:text-danger-200 dark:active:bg-danger-800 p-3 rounded-lg transition-colors cursor-pointer z-10">
             <img ngSrc="/assets/icons/trash.svg" alt="Supprimer" height="25" width="25" class="dark:invert">
           </button>
@@ -58,7 +62,7 @@
     <img class="brightness-0 invert" ngSrc="/assets/icons/save.svg" alt="Enregistrer" height="20" width="20">
   </button>
   @if (isSavingList()) {
-    <div (click)="endSavingList($event)" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div (click)="endSavingList($event)" (keydown.escape)="endSavingList($event)" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <form (submit)="saveList($event)" class="w-full max-w-sm bg-white dark:bg-surface-900 rounded-2xl shadow-2xl p-5 grid gap-3 relative">
         <span class="text-lg">Donner un nom à cette liste :</span>
         <input #name type="text" [value]="newListName()" (input)="newListName.set(name.value)" class="border border-surface-300 dark:border-surface-600 bg-transparent p-2 rounded-lg" [placeholder]="currentList().name">
