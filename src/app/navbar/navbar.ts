@@ -1,6 +1,7 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import {NgOptimizedImage} from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
+import { ShoppingListService } from '../services/shopping-list.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,4 +10,7 @@ import {NgOptimizedImage} from '@angular/common';
   templateUrl: './navbar.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class Navbar {}
+export class Navbar {
+  private readonly shoppingListService = inject(ShoppingListService);
+  readonly uncheckedCount = this.shoppingListService.uncheckedCount;
+}

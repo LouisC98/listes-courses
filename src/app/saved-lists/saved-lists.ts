@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, computed, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, Signal} from '@angular/core';
 import {ShoppingListService} from '../services/shopping-list.service';
 import {List} from '../model/list';
 import {NgOptimizedImage} from "@angular/common";
@@ -18,10 +18,12 @@ export class SavedLists {
   private readonly shoppingListService: ShoppingListService = inject(ShoppingListService);
   private readonly router: Router = inject(Router);
 
-  savedLists = computed<List[]>(() => this.shoppingListService.savedLists());
+  savedLists: Signal<List[]> = computed<List[]>(() => this.shoppingListService.savedLists());
 
   deleteList(list: List) {
-    this.shoppingListService.deleteSavedList(list.id);
+    if (confirm(`Supprimer la liste "${list.name}" ? Cette action est irréversible.`)) {
+      this.shoppingListService.deleteSavedList(list.id);
+    }
   }
 
   loadList(list: List) {

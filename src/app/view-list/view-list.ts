@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, computed, inject, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, input, signal, WritableSignal} from '@angular/core';
 import {ShoppingListService} from '../services/shopping-list.service';
 import {Router, RouterLink} from '@angular/router';
 import {NgOptimizedImage} from '@angular/common';
@@ -27,6 +27,26 @@ export class ViewList {
     const id = this.listId();
     return id ? this.shoppingListService.getSavedList(id) : undefined;
   });
+
+  isRenaming: WritableSignal<boolean> = signal<boolean>(false);
+  renameValue: WritableSignal<string> = signal<string>('');
+
+  startRenaming(currentName: string) {
+    this.renameValue.set(currentName);
+    this.isRenaming.set(true);
+  }
+
+  confirmRename() {
+    const id = this.listId();
+    if (id && this.renameValue().trim()) {
+      this.shoppingListService.renameSavedList(id, this.renameValue());
+    }
+    this.isRenaming.set(false);
+  }
+
+  cancelRename() {
+    this.isRenaming.set(false);
+  }
 
   removeItem(item: Item): void {
     const id = this.listId();

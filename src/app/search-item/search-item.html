@@ -1,10 +1,10 @@
-<section class="max-w-lg mx-auto p-4 relative">
+<section class="max-w-lg mx-auto p-4 relative pt-0">
   <form (submit)="$event.preventDefault(); addManualItem()" class="flex justify-center items-center gap-2">
     <input
       type="text"
-      #search
-      [value]="searchInput()"
-      (input)="searchInput.set(search.value)"
+      [ngModel]="searchInput()"
+      (ngModelChange)="searchInput.set($event)"
+      name="searchInput"
       placeholder="Chercher un aliment (ex: pomme)..."
       class="w-full border border-gray-300 rounded-lg p-2 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
     >

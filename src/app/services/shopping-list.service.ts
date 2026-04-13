@@ -1,4 +1,4 @@
-import { effect, Injectable, signal } from '@angular/core';
+import { computed, effect, Injectable, signal } from '@angular/core';
 import { Item } from '../model/item';
 import { List } from '../model/list';
 
@@ -14,6 +14,10 @@ export class ShoppingListService {
   }));
 
   savedLists = signal<List[]>(this.loadFromStorage('saved-lists', []));
+
+  uncheckedCount = computed(() =>
+    this.currentList().items.filter(i => !i.basket).length
+  );
 
   constructor() {
     effect(() => {
@@ -53,39 +57,57 @@ export class ShoppingListService {
   }
 
   toggleItem(itemId: string) {
-    this.currentList.update(list => {
-      const itemToToggle = list.items.find(i => i.id === itemId);
-
-      if (!itemToToggle) {
-        return list;
-      }
-
-      const updatedItem = { ...itemToToggle, basket: !itemToToggle.basket };
-      const otherItems = list.items.filter(i => i.id !== itemId);
-
-      return {
-        ...list,
-        items: [updatedItem, ...otherItems]
-      };
-    });
+    this.currentList.update(list => ({
+      ...list,
+      items: list.items.map(i =>
+        i.id === itemId ? { ...i, basket: !i.basket } : i
+      )
+    }));
   }
 
-  saveCurrentList(name: string) {
-    if (name.trim()) {
+  renameCurrentList(name: string) {
+    const trimmed = name.trim();
+    if (!trimmed) return;
+    this.currentList.update(list => ({ ...list, name: trimmed }));
+  }
+
+  saveCurrentList(name: string, overwrite: boolean = false): { success: boolean; duplicate: boolean } {
+    if (!name.trim()) return { success: false, duplicate: false };
+
+    const existingIndex = this.savedLists().findIndex(l => l.name.toLowerCase() === name.toLowerCase());
+
+    if (existingIndex !== -1 && !overwrite) {
+      return { success: false, duplicate: true };
+    }
+
+    const newItems = this.currentList().items.map(item => ({
+      ...item,
+      id: crypto.randomUUID(),
+      basket: false
+    }));
+
+    if (existingIndex !== -1 && overwrite) {
+      this.savedLists.update(lists => {
+        const updatedLists = [...lists];
+        updatedLists[existingIndex] = {
+          ...updatedLists[existingIndex],
+          name,
+          items: newItems
+        };
+        return updatedLists;
+      });
+    } else {
       const newList: List = {
         id: crypto.randomUUID(),
         name,
-        items: this.currentList().items.map(item => ({
-          ...item,
-          id: crypto.randomUUID(),
-          basket: false
-        }))
+        items: newItems
       };
-
-      if (!this.savedLists().some(l => l.name.toLowerCase() === name.toLowerCase())) {
-        this.savedLists.update(lists => [...lists, newList]);
-      }
+      this.savedLists.update(lists => [...lists, newList]);
     }
+
+    this.renameCurrentList(name);
+
+    return { success: true, duplicate: false };
   }
 
   loadSavedList(list: List) {
@@ -104,6 +126,14 @@ export class ShoppingListService {
 
   getSavedList(listId: string): List | undefined {
     return this.savedLists().find(l => l.id === listId);
+  }
+
+  renameSavedList(listId: string, name: string) {
+    const trimmed = name.trim();
+    if (!trimmed) return;
+    this.savedLists.update(lists =>
+      lists.map(l => l.id === listId ? { ...l, name: trimmed } : l)
+    );
   }
 
   addItemToSavedList(listId: string, newItemPartial: Omit<Item, 'id' | 'basket'>) {

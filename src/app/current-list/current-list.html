@@ -1,3 +1,26 @@
+<section>
+  <header class="px-3 py-2 flex items-center gap-2">
+    <span class="text-3xl">🗒️</span>
+    @if (isRenamingTitle()) {
+      <input
+        #renameInput
+        type="text"
+        [value]="titleRenameValue()"
+        (input)="titleRenameValue.set(renameInput.value)"
+        (blur)="confirmRenameTitle()"
+        (keydown.enter)="confirmRenameTitle()"
+        (keydown.escape)="cancelRenameTitle()"
+        autofocus
+        class="flex-1 border-b-2 border-blue-500 outline-none text-2xl font-semibold bg-transparent"
+      >
+    } @else {
+      <h2 class="flex-1 font-semibold text-2xl truncate">{{ currentList().name !== "" ? currentList().name : 'Ma Liste' }}</h2>
+      <button (click)="startRenamingTitle(currentList().name)" class="p-1 text-gray-400 hover:text-blue-500 transition cursor-pointer" title="Renommer la liste">
+        <img ngSrc="/edit.svg" alt="Modifier" height="20" width="20">
+      </button>
+    }
+  </header>
+</section>
 <app-search-item/>
 <main>
   <section class="max-w-xl mx-auto">
@@ -33,11 +56,19 @@
     <img class="brightness-0 invert" ngSrc="/save.svg" alt="Enregistrer" height="20" width="20">
   </button>
   @if (isSavingList()) {
-    <div (mousedown)="endSavingList($event)" class="absolute bg-black/50 left-0 top-0 w-full h-full z-100">
+    <div (click)="endSavingList($event)" class="fixed bg-black/50 left-0 top-0 w-full h-full z-100">
       <form (submit)="saveList($event)" class="rounded-xl bg-white shadow top-1/2 absolute left-1/2 -translate-1/2 p-3 grid gap-2 w-75">
         <span class="text-lg">Donner un nom à cette liste :</span>
-        <input #name type="text" [value]="newListName()" (input)="newListName.set(name.value)" class="border p-1 rounded" placeholder="(ex: Liste de course)">
-        <button type="submit" class="flex gap-2 justify-center items-center px-6 py-3 bg-blue-500 hover:bg-blue-700 text-white rounded-xl shadow-xl transition-transform hover:scale-105 cursor-pointer font-semibold w-fit mx-auto">
+        <input #name type="text" [value]="newListName()" (input)="newListName.set(name.value)" class="border p-1 rounded" [placeholder]="currentList().name">
+        @if (saveError()) {
+          <div class="flex flex-col gap-2 mt-2">
+            <p class="text-red-600 text-sm font-semibold">{{ saveError() }}</p>
+            <button type="button" (click)="saveList($event, true)" class="w-full py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded font-semibold transition cursor-pointer">
+              Mettre à jour la liste existante
+            </button>
+          </div>
+        }
+        <button type="submit" class="flex gap-2 justify-center items-center px-6 py-3 bg-blue-500 hover:bg-blue-700 text-white rounded-xl shadow-xl transition-transform hover:scale-105 cursor-pointer font-semibold w-fit mx-auto mt-2">
           Enregistrer
           <img class="brightness-0 invert" ngSrc="/save.svg" alt="Enregistrer" height="20" width="20">
         </button>

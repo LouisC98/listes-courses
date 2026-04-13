@@ -1,13 +1,14 @@
 import {ChangeDetectionStrategy, Component, computed, inject, input, signal} from '@angular/core';
-import foodDrinksJson from '../../data/food-drinks-fr.json';
-import {Item} from '../model/item';
 import {NgOptimizedImage} from '@angular/common';
 import {ShoppingListService} from '../services/shopping-list.service';
+import {EmojiService} from '../services/emoji.service';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-search-item',
   imports: [
-    NgOptimizedImage
+    NgOptimizedImage,
+    FormsModule
   ],
   templateUrl: './search-item.html',
   styleUrl: './search-item.css',
@@ -15,32 +16,20 @@ import {ShoppingListService} from '../services/shopping-list.service';
 })
 export class SearchItem {
   private readonly shoppingListService = inject(ShoppingListService);
+  private readonly emojiService = inject(EmojiService);
 
   targetListId = input<string>();
 
   searchInput = signal<string>('');
-  private readonly foodDrinksData = foodDrinksJson;
 
-  filteredFood = computed(() => {
-    const search = this.searchInput().toLowerCase().trim();
+  filteredFood = computed(() =>
+    this.emojiService.search(this.searchInput()).map(item => ({
+      name: item.label,
+      emoji: item.emoji,
+    }))
+  );
 
-    if (search.length < 2) {
-      return [] as Omit<Item, 'id'>[];
-    }
-
-    return this.foodDrinksData
-      .filter((item) =>
-        item.annotation_fr?.toLowerCase().includes(search) ||
-        item.tags_fr?.some(tag => tag.toLowerCase().includes(search))
-      )
-      .map(item => ({
-        name: item.annotation_fr ?? '',
-        emoji: item.emoji,
-        basket: false
-      }));
-  });
-
-  selectItem(itemSelected: Omit<Item, 'id'>) {
+  selectItem(itemSelected: { name: string; emoji: string }) {
     const listId = this.targetListId();
     const itemForService = { name: itemSelected.name, emoji: itemSelected.emoji };
 
