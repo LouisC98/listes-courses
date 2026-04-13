@@ -5,15 +5,15 @@
       [ngModel]="searchInput()"
       (ngModelChange)="searchInput.set($event)"
       name="searchInput"
-      placeholder="Chercher un aliment (ex: pomme)..."
-      class="w-full border border-gray-300 rounded-lg p-2 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+      placeholder="Chercher un article (ex: pomme)..."
+      class="w-full border border-surface-300 dark:border-surface-700 bg-transparent rounded-lg p-2 shadow-sm focus:ring-2 focus:ring-primary-500 focus:outline-none"
     >
-    <button type="submit" tabindex="-1" class="rounded bg-green-100 hover:bg-green-300 p-2 cursor-pointer">
-      <img ngSrc="/plus.svg" alt="Ajouter" height="25" width="25">
+    <button type="submit" tabindex="-1" class="rounded bg-success-200 text-success-800 hover:bg-success-300 active:bg-success-400 dark:bg-success-900 dark:text-success-200 dark:hover:bg-success-800 p-2 cursor-pointer">
+      <img ngSrc="/assets/icons/plus.svg" alt="Ajouter" height="25" width="25" class="dark:invert">
     </button>
   </form>
   <ul
-    class="absolute z-10 left-3 right-14 m-1 bg-white border border-gray-200 rounded-lg shadow-xl max-h-60 overflow-y-auto"
+    class="absolute z-10 left-3 right-14 m-1 bg-white dark:bg-surface-900 border border-surface-200 dark:border-surface-700 rounded-lg shadow-xl max-h-60 overflow-y-auto"
     [class.hidden]="searchInput().length < 2"
   >
     @for (item of filteredFood(); track item.name) {
@@ -23,13 +23,13 @@
         (keydown.space)="selectItem(item); $event.preventDefault()"
         tabindex="0"
         role="button"
-        class="flex items-center gap-3 p-3 hover:bg-blue-50 focus:bg-blue-50 focus:outline-none cursor-pointer transition border-b last:border-0 border-gray-100"
+        class="flex items-center gap-3 p-3 hover:bg-primary-50 focus:bg-primary-50 dark:hover:bg-surface-800 dark:focus:bg-surface-800 focus:outline-none cursor-pointer transition border-b last:border-0 border-surface-100 dark:border-surface-800"
       >
         <span class="text-2xl" aria-hidden="true">{{ item.emoji }}</span>
-        <span class="font-medium text-gray-800 capitalize">{{ item.name }}</span>
+        <span class="font-medium text-surface-800 dark:text-surface-100 capitalize">{{ item.name }}</span>
       </li>
     } @empty {
-      <li class="p-3 text-gray-500 text-center italic text-sm">Aucun résultat trouvé.</li>
+      <li class="p-3 text-surface-500 dark:text-surface-400 text-center italic text-sm">Aucun résultat trouvé.</li>
     }
   </ul>
 </section>

@@ -10,3 +10,4 @@ import {Navbar} from './navbar/navbar';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class App {}
+

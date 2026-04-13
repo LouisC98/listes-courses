@@ -1,5 +1,5 @@
 <section>
-  <header class="px-3 py-2 flex items-center gap-2">
+  <header class="max-w-lg mx-auto px-3 py-2 flex items-center gap-2">
     <span class="text-3xl">🗒️</span>
     @if (isRenamingTitle()) {
       <input
@@ -11,28 +11,28 @@
         (keydown.enter)="confirmRenameTitle()"
         (keydown.escape)="cancelRenameTitle()"
         autofocus
-        class="flex-1 border-b-2 border-blue-500 outline-none text-2xl font-semibold bg-transparent"
+        class="flex-1 border-b-2 border-primary-500 outline-none text-2xl font-semibold bg-transparent"
       >
     } @else {
       <h2 class="flex-1 font-semibold text-2xl truncate">{{ currentList().name !== "" ? currentList().name : 'Ma Liste' }}</h2>
-      <button (click)="startRenamingTitle(currentList().name)" class="p-1 text-gray-400 hover:text-blue-500 transition cursor-pointer" title="Renommer la liste">
-        <img ngSrc="/edit.svg" alt="Modifier" height="20" width="20">
+      <button (click)="startRenamingTitle(currentList().name)" class="p-1 text-surface-400 dark:text-surface-500 hover:text-primary-500 transition cursor-pointer" title="Renommer la liste">
+        <img ngSrc="/assets/icons/edit.svg" alt="Modifier" height="20" width="20" class="dark:invert">
       </button>
     }
   </header>
 </section>
 <app-search-item/>
 <main>
-  <section class="max-w-xl mx-auto">
+  <section class="max-w-lg mx-auto">
     <ul
       class="m-1 max-h-[75vh] overflow-y-auto pb-24"
     >
       @for (item of items(); track item.id) {
         <li
-          class="flex items-center gap-3 p-3 hover:bg-blue-50 hover:rounded transition border-b last:border-0 border-gray-100 cursor-pointer"
+          class="flex items-center gap-3 p-3 active:bg-primary-100 md:hover:bg-primary-50 dark:active:bg-surface-800 dark:md:hover:bg-surface-800/50 rounded-lg transition border-b last:border-0 border-surface-100 dark:border-surface-800 cursor-pointer"
           (click)="toggleBasket(item.id)" role="button" tabindex="0"
         >
-          <input type="checkbox" class="m-1 cursor-pointer" [checked]="item.basket">
+          <input type="checkbox" class="m-1 accent-primary-600 cursor-pointer" [checked]="item.basket">
           <span
             class="text-2xl transition-all duration-300"
             aria-hidden="true"
@@ -41,36 +41,36 @@
           >
             {{ item.emoji }}
           </span>
-          <span class="font-medium capitalize flex-1" [class.line-through]="item.basket" [class.text-gray-500]="item.basket">{{ item.name }}</span>
-          <button (click)="removeItem($event, item.id)" class="rounded bg-red-100 hover:bg-red-200 p-2 cursor-pointer z-10">
-            <img ngSrc="/trash.svg" alt="Supprimer" height="25" width="25">
+          <span class="font-medium capitalize flex-1" [class.line-through]="item.basket" [class.text-surface-500]="item.basket" [class.dark:text-surface-400]="item.basket">{{ item.name }}</span>
+          <button (click)="removeItem($event, item.id)" class="bg-danger-200 text-danger-800 hover:bg-danger-300 active:bg-danger-400 dark:bg-danger-900 dark:text-danger-200 dark:active:bg-danger-800 p-2 rounded-lg transition-colors cursor-pointer z-10">
+            <img ngSrc="/assets/icons/trash.svg" alt="Supprimer" height="25" width="25" class="dark:invert">
           </button>
         </li>
       } @empty {
-        <li class="p-3 text-gray-500 text-center italic text-sm">Pas encore d'article</li>
+        <li class="p-3 text-surface-500 dark:text-surface-400 text-center italic text-sm">Pas encore d'article</li>
       }
     </ul>
   </section>
-  <button (click)="startSaveList()" class="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 flex gap-2 justify-center items-center px-6 py-3 bg-blue-500 hover:bg-blue-700 text-white rounded-full shadow-xl transition-transform hover:scale-105 cursor-pointer min-w-55">
+  <button (click)="startSaveList()" class="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 flex gap-2 justify-center items-center px-6 py-3 bg-primary-500 hover:bg-primary-700 text-white rounded-full shadow-lg shadow-primary-500/30 transition-transform active:scale-95 md:hover:scale-105 cursor-pointer min-w-55">
     <span class="font-semibold">Enregistrer la liste</span>
-    <img class="brightness-0 invert" ngSrc="/save.svg" alt="Enregistrer" height="20" width="20">
+    <img class="brightness-0 invert" ngSrc="/assets/icons/save.svg" alt="Enregistrer" height="20" width="20">
   </button>
   @if (isSavingList()) {
-    <div (click)="endSavingList($event)" class="fixed bg-black/50 left-0 top-0 w-full h-full z-100">
-      <form (submit)="saveList($event)" class="rounded-xl bg-white shadow top-1/2 absolute left-1/2 -translate-1/2 p-3 grid gap-2 w-75">
+    <div (click)="endSavingList($event)" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <form (submit)="saveList($event)" class="w-full max-w-sm bg-white dark:bg-surface-900 rounded-2xl shadow-2xl p-5 grid gap-3 relative">
         <span class="text-lg">Donner un nom à cette liste :</span>
-        <input #name type="text" [value]="newListName()" (input)="newListName.set(name.value)" class="border p-1 rounded" [placeholder]="currentList().name">
+        <input #name type="text" [value]="newListName()" (input)="newListName.set(name.value)" class="border border-surface-200 dark:border-surface-700 bg-transparent p-1 rounded" [placeholder]="currentList().name">
         @if (saveError()) {
           <div class="flex flex-col gap-2 mt-2">
-            <p class="text-red-600 text-sm font-semibold">{{ saveError() }}</p>
-            <button type="button" (click)="saveList($event, true)" class="w-full py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded font-semibold transition cursor-pointer">
+            <p class="text-danger-600 dark:text-danger-400 text-sm font-semibold">{{ saveError() }}</p>
+            <button type="button" (click)="saveList($event, true)" class="w-full py-2 bg-warning-500 hover:bg-warning-600 text-white rounded font-semibold transition cursor-pointer">
               Mettre à jour la liste existante
             </button>
           </div>
         }
-        <button type="submit" class="flex gap-2 justify-center items-center px-6 py-3 bg-blue-500 hover:bg-blue-700 text-white rounded-xl shadow-xl transition-transform hover:scale-105 cursor-pointer font-semibold w-fit mx-auto mt-2">
+        <button type="submit" class="flex gap-2 justify-center items-center px-6 py-3 bg-primary-500 hover:bg-primary-700 text-white rounded-xl shadow-xl transition-transform active:scale-95 md:hover:scale-105 cursor-pointer font-semibold w-fit mx-auto mt-2">
           Enregistrer
-          <img class="brightness-0 invert" ngSrc="/save.svg" alt="Enregistrer" height="20" width="20">
+          <img class="brightness-0 invert" ngSrc="/assets/icons/save.svg" alt="Enregistrer" height="20" width="20">
         </button>
       </form>
     </div>
