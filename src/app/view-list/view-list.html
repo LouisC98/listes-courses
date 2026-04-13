@@ -39,7 +39,7 @@
             {{ item.emoji }}
           </span>
             <span class="font-medium capitalize flex-1" [class.line-through]="item.basket" [class.text-surface-500]="item.basket" [class.dark:text-surface-400]="item.basket">{{ item.name }}</span>
-            <button (click)="removeItem(item)" class="bg-danger-200 text-danger-800 hover:bg-danger-300 active:bg-danger-400 dark:bg-danger-900 dark:text-danger-200 dark:active:bg-danger-800 p-2 rounded-lg transition-colors cursor-pointer z-10">
+            <button (click)="removeItem(item)" class="bg-danger-200 text-danger-800 hover:bg-danger-300 active:bg-danger-400 dark:bg-danger-900 dark:text-danger-200 dark:active:bg-danger-800 p-3 rounded-lg transition-colors cursor-pointer z-10">
               <img ngSrc="/assets/icons/trash.svg" alt="Supprimer" height="25" width="25" class="dark:invert">
             </button>
           </li>

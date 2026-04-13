@@ -1,5 +1,5 @@
 <main>
-  <section class="max-w-lg mx-auto">
+  <section class="max-w-lg mx-auto min-h-screen bg-surface-100 dark:bg-surface-950">
       <div class="grid gap-2 my-4 p-2">
           @for (list of savedLists(); track list.id) {
               <div
@@ -13,10 +13,10 @@
                     </span>
                   </div>
                   <div class="flex gap-2">
-                      <button (click)="$event.stopPropagation(); loadList(list)" class="bg-success-200 text-success-800 hover:bg-success-300 active:bg-success-400 dark:bg-success-900 dark:text-success-200 dark:active:bg-success-800 p-2 rounded-lg transition-colors cursor-pointer z-10" title="Charger la liste">
+                      <button (click)="$event.stopPropagation(); loadList(list)" class="bg-success-200 text-success-800 hover:bg-success-300 active:bg-success-400 dark:bg-success-900 dark:text-success-200 dark:active:bg-success-800 p-3 rounded-lg transition-colors cursor-pointer z-10" title="Charger la liste">
                           <img ngSrc="/assets/icons/copy.svg" alt="Utiliser cette liste" height="25" width="25" class="dark:invert">
                       </button>
-                      <button (click)="$event.stopPropagation(); deleteList(list)" class="bg-danger-200 text-danger-800 hover:bg-danger-300 active:bg-danger-400 dark:bg-danger-900 dark:text-danger-200 dark:active:bg-danger-800 p-2 rounded-lg transition-colors cursor-pointer z-10" title="Supprimer">
+                      <button (click)="$event.stopPropagation(); deleteList(list)" class="bg-danger-200 text-danger-800 hover:bg-danger-300 active:bg-danger-400 dark:bg-danger-900 dark:text-danger-200 dark:active:bg-danger-800 p-3 rounded-lg transition-colors cursor-pointer z-10" title="Supprimer">
                           <img ngSrc="/assets/icons/trash.svg" alt="Supprimer" height="25" width="25" class="dark:invert">
                       </button>
                   </div>
