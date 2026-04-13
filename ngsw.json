@@ -1,0 +1,91 @@
+{
+  "configVersion": 1,
+  "timestamp": 1776088359578,
+  "index": "/listes-courses/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/listes-courses/favicon.ico",
+        "/listes-courses/index.html",
+        "/listes-courses/main-VRFCUSCY.js",
+        "/listes-courses/manifest.webmanifest",
+        "/listes-courses/styles-RV6DLGES.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/listes-courses/assets/icons/copy.svg",
+        "/listes-courses/assets/icons/edit.svg",
+        "/listes-courses/assets/icons/eye.svg",
+        "/listes-courses/assets/icons/home.svg",
+        "/listes-courses/assets/icons/list.svg",
+        "/listes-courses/assets/icons/main_icon.png",
+        "/listes-courses/assets/icons/plus.svg",
+        "/listes-courses/assets/icons/save.svg",
+        "/listes-courses/assets/icons/trash.svg",
+        "/listes-courses/icons/icon_x128.png",
+        "/listes-courses/icons/icon_x192.png",
+        "/listes-courses/icons/icon_x384.png",
+        "/listes-courses/icons/icon_x512.png",
+        "/listes-courses/icons/icon_x72.png",
+        "/listes-courses/icons/icon_x96.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/listes-courses/assets/icons/copy.svg": "13fb5db2db4a34f5acbf60117b81e05553aa43ac",
+    "/listes-courses/assets/icons/edit.svg": "03d36bd7c91e49460cf025448ff11116985ab851",
+    "/listes-courses/assets/icons/eye.svg": "0eb9b6e6581835d2023086d5bf2ab27518e75e6c",
+    "/listes-courses/assets/icons/home.svg": "853b84e3c24aebbc323fce93bf338bede65cd32f",
+    "/listes-courses/assets/icons/list.svg": "7263471242eb60f368a26923157f980b2cf6db15",
+    "/listes-courses/assets/icons/main_icon.png": "af15c2a8c8f53f756bb60e738de70e02d4a5ebd5",
+    "/listes-courses/assets/icons/plus.svg": "d5dca73bc12bf15833254e284c866fd3c6ee8549",
+    "/listes-courses/assets/icons/save.svg": "dedc07580f86200074df15530e731d0f033475a2",
+    "/listes-courses/assets/icons/trash.svg": "0a43438a6493c4ea474cc055df3cfa97d45e9580",
+    "/listes-courses/favicon.ico": "0949b2cefebced42eeef476e3ce3b959667550d8",
+    "/listes-courses/icons/icon_x128.png": "1c10a76656b253b7ed5a80c09a3c4badc8e932d5",
+    "/listes-courses/icons/icon_x192.png": "cebf74fb2993d4173e08dd36a7e5fa8cfa02878e",
+    "/listes-courses/icons/icon_x384.png": "1a99923cd7f775c52b4a41673a03d5fdd4133c44",
+    "/listes-courses/icons/icon_x512.png": "8082b909a1b55c916cce1a4e5e72abe55cf52728",
+    "/listes-courses/icons/icon_x72.png": "36275b910cae2bb2b26918742840676b5a4febad",
+    "/listes-courses/icons/icon_x96.png": "786976a9a3f7d4add06f4672316525b026eff742",
+    "/listes-courses/index.html": "a883ead32f026dbe3559013386591c317c780413",
+    "/listes-courses/main-VRFCUSCY.js": "9a19988c543de6e51ccf4ccb212d880f09f33174",
+    "/listes-courses/manifest.webmanifest": "45b89ae4a5f7c1543ff7a3b667d1190f52669be6",
+    "/listes-courses/styles-RV6DLGES.css": "5101972e3d7a3fed30c6e35610ea02aabbb792c6"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
