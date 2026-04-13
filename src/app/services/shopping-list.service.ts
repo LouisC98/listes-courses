@@ -20,15 +20,18 @@ export class ShoppingListService {
   );
 
   constructor() {
-    effect(() => {
-      localStorage.setItem('current-list', JSON.stringify(this.currentList()));
-      localStorage.setItem('saved-lists', JSON.stringify(this.savedLists()));
-    });
+    effect(() => localStorage.setItem('current-list', JSON.stringify(this.currentList())));
+    effect(() => localStorage.setItem('saved-lists', JSON.stringify(this.savedLists())));
   }
 
   private loadFromStorage<T>(key: string, defaultValue: T): T {
     const stored = localStorage.getItem(key);
-    return stored ? JSON.parse(stored) : defaultValue;
+    if (!stored) return defaultValue;
+    try {
+      return JSON.parse(stored);
+    } catch {
+      return defaultValue;
+    }
   }
 
   addItem(newItemPartial: Omit<Item, 'id' | 'basket'>) {
@@ -65,10 +68,15 @@ export class ShoppingListService {
     }));
   }
 
-  renameCurrentList(name: string) {
+  renameCurrentList(name: string): { success: boolean; duplicate: boolean } {
     const trimmed = name.trim();
-    if (!trimmed) return;
+    if (!trimmed) return { success: false, duplicate: false };
+
+    const duplicate = this.savedLists().some(l => l.name.toLowerCase() === trimmed.toLowerCase());
+    if (duplicate) return { success: false, duplicate: true };
+
     this.currentList.update(list => ({ ...list, name: trimmed }));
+    return { success: true, duplicate: false };
   }
 
   saveCurrentList(name: string, overwrite: boolean = false): { success: boolean; duplicate: boolean } {
@@ -86,12 +94,14 @@ export class ShoppingListService {
       basket: false
     }));
 
+    const trimmedName = name.trim();
+
     if (existingIndex !== -1 && overwrite) {
       this.savedLists.update(lists => {
         const updatedLists = [...lists];
         updatedLists[existingIndex] = {
           ...updatedLists[existingIndex],
-          name,
+          name: trimmedName,
           items: newItems
         };
         return updatedLists;
@@ -99,13 +109,13 @@ export class ShoppingListService {
     } else {
       const newList: List = {
         id: crypto.randomUUID(),
-        name,
+        name: trimmedName,
         items: newItems
       };
       this.savedLists.update(lists => [...lists, newList]);
     }
 
-    this.renameCurrentList(name);
+    this.currentList.update(list => ({ ...list, name: trimmedName }));
 
     return { success: true, duplicate: false };
   }
@@ -124,16 +134,17 @@ export class ShoppingListService {
     this.savedLists.update(lists => lists.filter(l => l.id !== listId));
   }
 
-  getSavedList(listId: string): List | undefined {
-    return this.savedLists().find(l => l.id === listId);
-  }
-
-  renameSavedList(listId: string, name: string) {
+  renameSavedList(listId: string, name: string): { success: boolean; duplicate: boolean } {
     const trimmed = name.trim();
-    if (!trimmed) return;
+    if (!trimmed) return { success: false, duplicate: false };
+
+    const duplicate = this.savedLists().some(l => l.id !== listId && l.name.toLowerCase() === trimmed.toLowerCase());
+    if (duplicate) return { success: false, duplicate: true };
+
     this.savedLists.update(lists =>
       lists.map(l => l.id === listId ? { ...l, name: trimmed } : l)
     );
+    return { success: true, duplicate: false };
   }
 
   addItemToSavedList(listId: string, newItemPartial: Omit<Item, 'id' | 'basket'>) {

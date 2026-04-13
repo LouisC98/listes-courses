@@ -23,26 +23,34 @@ export class ViewList {
 
   list = computed(() => {
     const id = this.listId();
-    return id ? this.shoppingListService.getSavedList(id) : undefined;
+    return id ? this.shoppingListService.savedLists().find(l => l.id === id) : undefined;
   });
 
   isRenaming: WritableSignal<boolean> = signal<boolean>(false);
   renameValue: WritableSignal<string> = signal<string>('');
+  renameError: WritableSignal<string> = signal<string>('');
 
   startRenaming(currentName: string) {
     this.renameValue.set(currentName);
+    this.renameError.set('');
     this.isRenaming.set(true);
   }
 
   confirmRename() {
     const id = this.listId();
     if (id && this.renameValue().trim()) {
-      this.shoppingListService.renameSavedList(id, this.renameValue());
+      const result = this.shoppingListService.renameSavedList(id, this.renameValue());
+      if (result.duplicate) {
+        this.renameError.set('Une liste avec ce nom existe déjà.');
+        return;
+      }
     }
+    this.renameError.set('');
     this.isRenaming.set(false);
   }
 
   cancelRename() {
+    this.renameError.set('');
     this.isRenaming.set(false);
   }
 

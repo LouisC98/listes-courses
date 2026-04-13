@@ -2,17 +2,24 @@
   <header class="max-w-lg mx-auto px-3 py-2 flex items-center gap-2">
     <span class="text-3xl">🗒️</span>
     @if (isRenamingTitle()) {
-      <input
-        #renameInput
-        type="text"
-        [value]="titleRenameValue()"
-        (input)="titleRenameValue.set(renameInput.value)"
-        (blur)="confirmRenameTitle()"
-        (keydown.enter)="confirmRenameTitle()"
-        (keydown.escape)="cancelRenameTitle()"
-        autofocus
-        class="flex-1 border-b-2 border-primary-500 outline-none text-2xl font-semibold bg-transparent"
-      >
+      <div class="flex-1 flex flex-col gap-1">
+        <input
+          #renameInput
+          type="text"
+          [value]="titleRenameValue()"
+          (input)="titleRenameValue.set(renameInput.value)"
+          (blur)="confirmRenameTitle()"
+          (keydown.enter)="confirmRenameTitle()"
+          (keydown.escape)="cancelRenameTitle()"
+          autofocus
+          class="border-b-2 outline-none text-2xl font-semibold bg-transparent w-full"
+          [class.border-primary-500]="!renameTitleError()"
+          [class.border-danger-500]="renameTitleError()"
+        >
+        @if (renameTitleError()) {
+          <span class="text-danger-600 dark:text-danger-400 text-xs">{{ renameTitleError() }}</span>
+        }
+      </div>
     } @else {
       <h2 class="flex-1 font-semibold text-2xl truncate">{{ currentList().name !== "" ? currentList().name : 'Ma Liste' }}</h2>
       <button (click)="startRenamingTitle(currentList().name)" class="p-1 text-surface-400 dark:text-surface-500 hover:text-primary-500 transition cursor-pointer" title="Renommer la liste">

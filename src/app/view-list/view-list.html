@@ -3,17 +3,24 @@
     <header class="max-w-lg mx-auto px-3 py-2 flex items-center gap-2">
       <span class="text-3xl">🗒️</span>
       @if (isRenaming()) {
-        <input
-          #renameInput
-          type="text"
-          [value]="renameValue()"
-          (input)="renameValue.set(renameInput.value)"
-          (blur)="confirmRename()"
-          (keydown.enter)="confirmRename()"
-          (keydown.escape)="cancelRename()"
-          autofocus
-          class="flex-1 border-b-2 border-primary-500 outline-none text-2xl font-semibold bg-transparent"
-        >
+        <div class="flex-1 flex flex-col gap-1">
+          <input
+            #renameInput
+            type="text"
+            [value]="renameValue()"
+            (input)="renameValue.set(renameInput.value)"
+            (blur)="confirmRename()"
+            (keydown.enter)="confirmRename()"
+            (keydown.escape)="cancelRename()"
+            autofocus
+            class="border-b-2 outline-none text-2xl font-semibold bg-transparent w-full"
+            [class.border-primary-500]="!renameError()"
+            [class.border-danger-500]="renameError()"
+          >
+          @if (renameError()) {
+            <span class="text-danger-600 dark:text-danger-400 text-xs">{{ renameError() }}</span>
+          }
+        </div>
       } @else {
         <h2 class="flex-1 font-semibold text-2xl truncate">{{ myList.name }}</h2>
         <button (click)="startRenaming(myList.name)" class="p-1 text-surface-400 dark:text-surface-500 hover:text-primary-500 transition cursor-pointer" title="Renommer la liste">
@@ -26,7 +33,7 @@
       <ul
         class="m-1 max-h-[75vh] overflow-y-auto pb-24"
       >
-        @for (item of myList.items; track item.name) {
+        @for (item of myList.items; track item.id) {
           <li
             class="flex items-center gap-3 p-3 active:bg-primary-100 md:hover:bg-primary-50 dark:active:bg-surface-800 dark:md:hover:bg-surface-800/50 rounded-lg transition border-b last:border-0 border-surface-100 dark:border-surface-800 cursor-pointer"
           >

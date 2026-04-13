@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, computed, inject, Signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, Signal} from '@angular/core';
 import {ShoppingListService} from '../services/shopping-list.service';
 import {List} from '../model/list';
 import {Router, RouterLink} from "@angular/router";
@@ -16,7 +16,7 @@ export class SavedLists {
   private readonly shoppingListService: ShoppingListService = inject(ShoppingListService);
   private readonly router: Router = inject(Router);
 
-  savedLists: Signal<List[]> = computed<List[]>(() => this.shoppingListService.savedLists());
+  savedLists: Signal<List[]> = this.shoppingListService.savedLists.asReadonly();
 
   deleteList(list: List) {
     if (confirm(`Supprimer la liste "${list.name}" ? Cette action est irréversible.`)) {

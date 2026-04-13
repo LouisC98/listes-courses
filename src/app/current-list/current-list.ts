@@ -19,22 +19,30 @@ export class CurrentList {
 
   isRenamingTitle: WritableSignal<boolean> = signal<boolean>(false);
   titleRenameValue: WritableSignal<string> = signal<string>('');
+  renameTitleError: WritableSignal<string> = signal<string>('');
 
   currentList: Signal<List> = this.shoppingListService.currentList.asReadonly();
 
   startRenamingTitle(currentName: string) {
     this.titleRenameValue.set(currentName);
+    this.renameTitleError.set('');
     this.isRenamingTitle.set(true);
   }
 
   confirmRenameTitle() {
     if (this.titleRenameValue().trim()) {
-      this.shoppingListService.renameCurrentList(this.titleRenameValue());
+      const result = this.shoppingListService.renameCurrentList(this.titleRenameValue());
+      if (result.duplicate) {
+        this.renameTitleError.set('Une liste sauvegardée porte déjà ce nom.');
+        return;
+      }
     }
+    this.renameTitleError.set('');
     this.isRenamingTitle.set(false);
   }
 
   cancelRenameTitle() {
+    this.renameTitleError.set('');
     this.isRenamingTitle.set(false);
   }
 
